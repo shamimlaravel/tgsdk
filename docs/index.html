@@ -1,0 +1,2394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel Telegram Hybrid Storage - Documentation</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Modern Design Enhancements */
+        .section {
+            animation: fadeInModern 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes fadeInModern {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+        
+        h1, h2, h3 {
+            transition: all 0.3s ease;
+        }
+        
+        h1:hover, h2:hover, h3:hover {
+            transform: translateX(5px);
+        }
+        
+        pre {
+            position: relative;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5), 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 136, 204, 0.2);
+        }
+        
+        pre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0088cc, #00d4ff, #0088cc);
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .timeline-item {
+            position: relative;
+        }
+        
+        .timeline-marker {
+            box-shadow: 0 0 30px rgba(0, 136, 204, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.2);
+            animation: markerPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes markerPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 136, 204, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 50px rgba(0, 212, 255, 0.8), inset 0 0 30px rgba(255, 255, 255, 0.3); }
+        }
+        
+        .component-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .component-box:hover {
+            transform: scale(1.05) rotateX(5deg);
+            box-shadow: 0 25px 50px rgba(0, 136, 204, 0.3);
+        }
+        
+        .sub-component {
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        
+        .sub-component:hover {
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.2), rgba(0, 212, 255, 0.3));
+            transform: translateX(10px);
+            box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
+        }
+        
+        table {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        table thead {
+            background: linear-gradient(135deg, #0088cc 0%, #00d4ff 100%);
+            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.4);
+        }
+        
+        table tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        table tbody tr:hover {
+            background: linear-gradient(90deg, rgba(0, 136, 204, 0.05) 0%, rgba(0, 212, 255, 0.1) 100%);
+            transform: scale(1.01);
+            box-shadow: 0 4px 12px rgba(0, 136, 204, 0.15);
+        }
+        
+        .btn-play {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0088cc 0%, #00d4ff 100%);
+            box-shadow: 0 8px 20px rgba(0, 136, 204, 0.4);
+        }
+        
+        .btn-play::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-play:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-play:hover {
+            box-shadow: 0 12px 30px rgba(0, 136, 204, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .workflow-step .step-icon {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .workflow-step.active .step-icon {
+            animation: stepIconGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes stepIconGlow {
+            0%, 100% {
+                box-shadow: 0 8px 20px rgba(0, 136, 204, 0.4);
+            }
+            50% {
+                box-shadow: 0 12px 40px rgba(0, 212, 255, 0.7), 0 0 60px rgba(0, 212, 255, 0.4);
+            }
+        }
+        
+        .api-class {
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .api-class:hover {
+            border-left-color: #00d4ff;
+            box-shadow: 0 8px 30px rgba(0, 136, 204, 0.2);
+            transform: translateX(5px);
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #0088cc 0%, #00d4ff 100%);
+            border-radius: 10px;
+            border: 2px solid rgba(15, 23, 42, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #00d4ff 0%, #0088cc 100%);
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.5);
+        }
+        
+        /* Real-Time Simulation Styles */
+        .simulation-container {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(0, 136, 204, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 0 100px rgba(0, 136, 204, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .simulation-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 136, 204, 0.03) 0%, transparent 70%);
+            animation: simulationGlow 8s ease-in-out infinite;
+        }
+        
+        @keyframes simulationGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .simulation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .simulation-title {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 136, 204, 0.5);
+        }
+        
+        .simulation-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .simulation-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .simulation-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .simulation-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .simulation-btn-primary {
+            background: linear-gradient(135deg, #0088cc 0%, #00d4ff 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+        }
+        
+        .simulation-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.6);
+        }
+        
+        .simulation-btn-secondary {
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+        
+        .simulation-btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.6);
+        }
+        
+        .simulation-btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        
+        .simulation-btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
+        }
+        
+        .simulation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .simulation-module {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 136, 204, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .simulation-module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+            animation: moduleScan 3s ease-in-out infinite;
+        }
+        
+        @keyframes moduleScan {
+            0%, 100% { transform: translateY(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100%); opacity: 0; }
+        }
+        
+        .simulation-module:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(0, 136, 204, 0.3);
+        }
+        
+        .simulation-module.active {
+            border-color: #00d4ff;
+            box-shadow: 0 0 40px rgba(0, 136, 204, 0.4), inset 0 0 20px rgba(0, 136, 204, 0.1);
+        }
+        
+        .simulation-module.processing {
+            animation: modulePulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes modulePulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 136, 204, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.6); }
+        }
+        
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .module-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #0088cc 0%, #00d4ff 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+        }
+        
+        .module-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .module-status {
+            margin-left: auto;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-idle {
+            background: rgba(148, 163, 184, 0.2);
+            color: #64748b;
+        }
+        
+        .status-active {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+        
+        .status-processing {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            animation: statusPulse 1s ease-in-out infinite;
+        }
+        
+        .status-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .data-particle {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #00d4ff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.8), 0 0 40px rgba(0, 212, 255, 0.4);
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .metrics-panel {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(0, 136, 204, 0.3);
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(0, 136, 204, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 136, 204, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .metric-label {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-value {
+            color: #00d4ff;
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(0, 136, 204, 0.5);
+        }
+        
+        .metric-unit {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-left: 0.25rem;
+        }
+        
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+        
+        .speed-control label {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+        
+        .speed-slider {
+            width: 100px;
+            -webkit-appearance: none;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(148, 163, 184, 0.3);
+            outline: none;
+        }
+        
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0088cc 0%, #00d4ff 100%);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 136, 204, 0.5);
+        }
+        
+        .flow-connector {
+            position: absolute;
+            height: 2px;
+            background: rgba(0, 136, 204, 0.3);
+            transform-origin: left center;
+            z-index: 0;
+        }
+        
+        .flow-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: #00d4ff;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px rgba(0, 136, 204, 0.8);
+            animation: flowParticle 2s linear infinite;
+        }
+        
+        @keyframes flowParticle {
+            0% { left: 0; opacity: 1; }
+            100% { left: 100%; opacity: 0; }
+        }
+        
+        .log-terminal {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 1rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: #00d4ff;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 136, 204, 0.3);
+            margin-top: 1rem;
+        }
+        
+        .log-entry {
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: logFadeIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes logFadeIn {
+            to { opacity: 1; }
+        }
+        
+        .log-timestamp {
+            color: #64748b;
+            margin-right: 0.5rem;
+        }
+        
+        .log-info { color: #3b82f6; }
+        .log-success { color: #10b981; }
+        .log-warning { color: #f59e0b; }
+        .log-error { color: #ef4444; }
+        
+        /* Modern SASS Documentation Styles */
+        .modern-sass-design {
+            display: grid;
+            gap: 2rem;
+            padding: 1rem;
+        }
+        
+        .sass-header-card,
+        .sass-section-card,
+        .sass-footer-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 136, 204, 0.1), inset 0 0 60px rgba(255, 255, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sass-header-card::before,
+        .sass-section-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                transparent,
+                rgba(0, 136, 204, 0.1),
+                transparent
+            );
+            animation: rotateGradient 10s linear infinite;
+        }
+        
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .sass-header-card:hover,
+        .sass-section-card:hover,
+        .sass-footer-card:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 15px 50px rgba(0, 136, 204, 0.2), 0 0 100px rgba(0, 136, 204, 0.1);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #0088cc 0%, #00d4ff 50%, #0088cc 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientFlow 3s ease-in-out infinite;
+            font-weight: 700;
+        }
+        
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+        }
+        
+        .sass-description {
+            color: #64748b;
+            font-size: 1.125rem;
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .glass-panel {
+            background: rgba(248, 250, 252, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 136, 204, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-panel:hover {
+            background: rgba(248, 250, 252, 0.8);
+            border-color: rgba(0, 136, 204, 0.3);
+            box-shadow: inset 0 2px 8px rgba(0, 136, 204, 0.1), 0 4px 12px rgba(0, 136, 204, 0.15);
+        }
+        
+        .variable-group h3,
+        .mixin-group h3,
+        .component-style-group h3,
+        .animation-group h3,
+        .principles-group h3 {
+            color: #334155;
+            font-size: 1.25rem;
+            margin: 1.5rem 0 1rem;
+            padding-left: 1rem;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .variable-group h3:hover,
+        .mixin-group h3:hover,
+        .component-style-group h3:hover,
+        .animation-group h3:hover,
+        .principles-group h3:hover {
+            border-left-color: #00d4ff;
+            color: #0088cc;
+            transform: translateX(8px);
+        }
+        
+        .sass-heading {
+            font-size: 1.875rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .sass-heading::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0088cc, #00d4ff);
+            transition: width 0.4s ease;
+            border-radius: 2px;
+        }
+        
+        .sass-heading:hover::after {
+            width: 100%;
+        }
+        
+        .sass-note {
+            color: #64748b;
+            font-size: 0.875rem;
+            text-align: center;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .sass-note strong {
+            color: #0088cc;
+            font-weight: 700;
+        }
+        
+        pre.folder-structure {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(0, 136, 204, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 136, 204, 0.2), inset 0 0 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        pre.folder-structure::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d4ff, transparent);
+            animation: scanLine 2s ease-in-out infinite;
+        }
+        
+        @keyframes scanLine {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(100%); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="logo">
+            <h1><i class="fab fa-telegram"></i> TGSDK</h1>
+            <p class="subtitle">Laravel Telegram Hybrid Storage</p>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#overview" class="active"><i class="fas fa-home"></i> Overview</a></li>
+            <li><a href="#architecture"><i class="fas fa-sitemap"></i> Architecture</a></li>
+            <li><a href="#workflow"><i class="fas fa-sync-alt"></i> Workflow</a></li>
+            <li><a href="#simulation"><i class="fas fa-microchip"></i> Simulation</a></li>
+            <li><a href="#installation"><i class="fas fa-download"></i> Installation</a></li>
+            <li><a href="#usage"><i class="fas fa-code"></i> Usage</a></li>
+            <li><a href="#configuration"><i class="fas fa-cog"></i> Configuration</a></li>
+            <li><a href="#api-reference"><i class="fas fa-book"></i> API Reference</a></li>
+            <li><a href="#sass-docs"><i class="fab fa-sass"></i> SASS Documentation</a></li>
+        </ul>
+    </nav>
+
+    <main class="content">
+        <section id="overview" class="section active">
+            <h1><i class="fas fa-home"></i> Overview</h1>
+            <div class="intro-card">
+                <h2>Laravel Telegram Hybrid Storage</h2>
+                <p class="lead">A Laravel 12 package that implements a custom filesystem driver backed by Telegram channels. Files are uploaded asynchronously through a Python worker (Pyrogram) via a Redis queue, and served back through a streaming proxy with optional CDN support.</p>
+                <p class="repo-link"><strong>Repository:</strong> <a href="https://github.com/shamimlaravel/tgsdk.git" target="_blank">https://github.com/shamimlaravel/tgsdk.git</a></p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Laravel Storage API</h3>
+                        <p>Use Storage::disk('telegram')->put(), get(), url(), exists() seamlessly</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fab fa-telegram"></i>
+                        <h3>Telegram-backed Storage</h3>
+                        <p>Files stored as messages in Telegram channels via MTProto (Pyrogram)</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Async Upload Pipeline</h3>
+                        <p>Laravel enqueues to Redis; Python worker handles Telegram upload</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-infinity"></i>
+                        <h3>Unlimited File Size</h3>
+                        <p>Intelligent chunking splits files beyond Telegram's 2GB/4GB limits</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-exchange-alt"></i>
+                        <h3>Channel Rotation</h3>
+                        <p>Distributes uploads across multiple channels (round-robin, least-used)</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Security</h3>
+                        <p>Chunk encryption (AES-256-GCM) and integrity verification (SHA-256)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="section">
+            <h1><i class="fas fa-sitemap"></i> Architecture Design</h1>
+            
+            <div class="architecture-diagram">
+                <h2>System Architecture</h2>
+                <div class="diagram-container">
+                    <div class="component-box laravel-app">
+                        <h3><i class="fab fa-laravel"></i> Laravel Application</h3>
+                        <div class="sub-components">
+                            <div class="sub-component">TelegramStorageAdapter</div>
+                            <div class="sub-component">ChannelRotator</div>
+                            <div class="sub-component">ChunkManager</div>
+                            <div class="sub-component">IntegrityVerifier</div>
+                        </div>
+                    </div>
+                    
+                    <div class="arrow-down">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Redis Queue</span>
+                    </div>
+                    
+                    <div class="component-box python-worker">
+                        <h3><i class="fab fa-python"></i> Python Worker</h3>
+                        <div class="sub-components">
+                            <div class="sub-component">SessionPool</div>
+                            <div class="sub-component">Uploader (Pyrogram)</div>
+                            <div class="sub-component">Callback Handler</div>
+                        </div>
+                    </div>
+                    
+                    <div class="arrow-down">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Telegram API</span>
+                    </div>
+                    
+                    <div class="component-box telegram">
+                        <h3><i class="fab fa-telegram"></i> Telegram Channels</h3>
+                        <div class="sub-components">
+                            <div class="sub-component">Channel 1</div>
+                            <div class="sub-component">Channel 2</div>
+                            <div class="sub-component">Channel N</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="component-details">
+                <h2>Component Responsibilities</h2>
+                
+                <div class="component-grid">
+                    <div class="component-info">
+                        <h3>TelegramStorageAdapter</h3>
+                        <p>Implements Flysystem's FilesystemAdapter interface. Handles file operations (put, get, delete, exists) and coordinates with other components.</p>
+                        <ul>
+                            <li>Interfaces with Laravel Storage facade</li>
+                            <li>Manages file metadata in database</li>
+                            <li>Triggers upload jobs to Redis queue</li>
+                            <li>Handles streaming downloads</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-info">
+                        <h3>ChannelRotator</h3>
+                        <p>Selects the optimal Telegram channel for each upload based on configured strategy.</p>
+                        <ul>
+                            <li>Round-robin distribution</li>
+                            <li>Least-used selection</li>
+                            <li>Capacity-aware routing</li>
+                            <li>Channel health monitoring</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-info">
+                        <h3>ChunkManager</h3>
+                        <p>Splits large files into manageable chunks and reassembles them on download.</p>
+                        <ul>
+                            <li>File chunking algorithm</li>
+                            <li>Chunk ordering and tracking</li>
+                            <li>Reassembly logic</li>
+                            <li>Compression/encryption support</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-info">
+                        <h3>IntegrityVerifier</h3>
+                        <p>Ensures data integrity through checksums and hashes.</p>
+                        <ul>
+                            <li>SHA-256 checksum generation</li>
+                            <li>Chunk-level verification</li>
+                            <li>File-level verification</li>
+                            <li>Tamper detection</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-info">
+                        <h3>Python Worker (SessionPool)</h3>
+                        <p>Manages multiple Pyrogram sessions for parallel uploads.</p>
+                        <ul>
+                            <li>Session lifecycle management</li>
+                            <li>Connection pooling</li>
+                            <li>Rate limiting</li>
+                            <li>Error recovery</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="component-info">
+                        <h3>Python Worker (Uploader)</h3>
+                        <p>Processes upload queue and sends files to Telegram.</p>
+                        <ul>
+                            <li>Queue consumption</li>
+                            <li>File upload to Telegram</li>
+                            <li>Callback notifications</li>
+                            <li>Retry logic</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="workflow" class="section">
+            <h1><i class="fas fa-sync-alt"></i> Real-Time Workflow</h1>
+            
+            <div class="workflow-animation-container">
+                <h2>Upload Workflow Animation</h2>
+                <div class="workflow-animation" id="uploadAnimation">
+                    <div class="workflow-step step-1">
+                        <div class="step-icon"><i class="fas fa-file"></i></div>
+                        <p>File Upload Request</p>
+                    </div>
+                    <div class="workflow-connector">
+                        <div class="animated-dot"></div>
+                    </div>
+                    <div class="workflow-step step-2">
+                        <div class="step-icon"><i class="fas fa-database"></i></div>
+                        <p>Create Metadata</p>
+                    </div>
+                    <div class="workflow-connector">
+                        <div class="animated-dot"></div>
+                    </div>
+                    <div class="workflow-step step-3">
+                        <div class="step-icon"><i class="fas fa-stream"></i></div>
+                        <p>Chunk if needed</p>
+                    </div>
+                    <div class="workflow-connector">
+                        <div class="animated-dot"></div>
+                    </div>
+                    <div class="workflow-step step-4">
+                        <div class="step-icon"><i class="fas fa-queue"></i></div>
+                        <p>Enqueue to Redis</p>
+                    </div>
+                    <div class="workflow-connector">
+                        <div class="animated-dot"></div>
+                    </div>
+                    <div class="workflow-step step-5">
+                        <div class="step-icon"><i class="fab fa-python"></i></div>
+                        <p>Python Worker</p>
+                    </div>
+                    <div class="workflow-connector">
+                        <div class="animated-dot"></div>
+                    </div>
+                    <div class="workflow-step step-6">
+                        <div class="step-icon"><i class="fab fa-telegram"></i></div>
+                        <p>Upload to Telegram</p>
+                    </div>
+                    <div class="workflow-connector">
+                        <div class="animated-dot"></div>
+                    </div>
+                    <div class="workflow-step step-7">
+                        <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+                        <p>Callback & Confirm</p>
+                    </div>
+                </div>
+                <button class="btn-play" onclick="playAnimation()">
+                    <i class="fas fa-play"></i> Play Animation
+                </button>
+            </div>
+
+            <div class="workflow-details">
+                <h2>Detailed Workflow Steps</h2>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1</div>
+                        <div class="timeline-content">
+                            <h3>Application Uploads File</h3>
+                            <pre><code>Storage::disk('telegram')->put('path/file.zip', $contents);</code></pre>
+                            <p>The application calls the storage facade to upload a file. The adapter creates a database record and determines if chunking is needed.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2</div>
+                        <div class="timeline-content">
+                            <h3>Job Enqueued to Redis</h3>
+                            <p>An upload job is created with file metadata and pushed to the Redis queue. The application returns immediately without waiting for the actual upload.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">3</div>
+                        <div class="timeline-content">
+                            <h3>Python Worker Processes Queue</h3>
+                            <p>The worker polls the Redis queue, retrieves upload jobs, and selects an available session from the pool.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">4</div>
+                        <div class="timeline-content">
+                            <h3>File Uploaded to Telegram</h3>
+                            <p>Using Pyrogram, the worker uploads the file (or chunks) to the selected Telegram channel(s) via MTProto API.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">5</div>
+                        <div class="timeline-content">
+                            <h3>Callback to Laravel</h3>
+                            <p>After successful upload, the worker sends a callback to Laravel with message IDs and file information.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">6</div>
+                        <div class="timeline-content">
+                            <h3>Database Updated</h3>
+                            <p>Laravel verifies the callback signature, updates the file record with Telegram message IDs, and fires completion events.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="installation" class="section">
+            <h1><i class="fas fa-download"></i> Installation</h1>
+            
+            <div class="installation-steps">
+                <div class="step">
+                    <h2>Step 1: Install Package</h2>
+                    <pre><code>composer require shamimstack/tgsdk-laravel-telegram-hybrid-storage</code></pre>
+                </div>
+                
+                <div class="step">
+                    <h2>Step 2: Publish Configuration</h2>
+                    <pre><code>php artisan vendor:publish --tag=telegram-storage-config
+php artisan vendor:publish --tag=telegram-storage-migrations
+php artisan migrate</code></pre>
+                </div>
+                
+                <div class="step">
+                    <h2>Step 3: Configure Filesystem</h2>
+                    <p>Add to <code>config/filesystems.php</code>:</p>
+                    <pre><code>'disks' => [
+    // ...
+    'telegram' => [
+        'driver' => 'telegram',
+    ],
+],</code></pre>
+                </div>
+                
+                <div class="step">
+                    <h2>Step 4: Set Environment Variables</h2>
+                    <pre><code># Telegram API credentials
+TELEGRAM_API_ID=your_api_id
+TELEGRAM_API_HASH=your_api_hash
+TELEGRAM_BOT_TOKEN=your_bot_token
+TELEGRAM_SESSION_NAME=telegram_storage
+
+# Redis
+TELEGRAM_STORAGE_REDIS_CONNECTION=default
+TELEGRAM_STORAGE_REDIS_QUEUE=telegram_upload_queue
+
+# Worker callback
+TELEGRAM_STORAGE_CALLBACK_URL=https://your-app.com/telegram-storage/callback
+TELEGRAM_STORAGE_CALLBACK_SECRET=your_hmac_secret</code></pre>
+                </div>
+                
+                <div class="step">
+                    <h2>Step 5: Setup Python Worker</h2>
+                    <pre><code>cd python-worker
+cp .env.example .env
+# Edit .env with your credentials
+pip install -r requirements.txt
+python worker.py</code></pre>
+                    <p>Or use Docker:</p>
+                    <pre><code>docker build -t telegram-worker .
+docker run --env-file .env telegram-worker</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="usage" class="section">
+            <h1><i class="fas fa-code"></i> Usage Examples</h1>
+            
+            <div class="code-examples">
+                <div class="example">
+                    <h2>Basic File Operations</h2>
+                    <pre><code>use Illuminate\Support\Facades\Storage;
+
+// Upload a file
+Storage::disk('telegram')->put('documents/report.pdf', $fileContents);
+
+// Upload from stream
+Storage::disk('telegram')->putStream('videos/clip.mp4', fopen('/path/to/file', 'r'));
+
+// Check existence
+$exists = Storage::disk('telegram')->exists('documents/report.pdf');
+
+// Get contents
+$contents = Storage::disk('telegram')->get('documents/report.pdf');
+
+// Get URL
+$url = Storage::disk('telegram')->url('documents/report.pdf');
+
+// Get metadata
+$size = Storage::disk('telegram')->size('documents/report.pdf');
+$mime = Storage::disk('telegram')->mimeType('documents/report.pdf');
+
+// Delete
+Storage::disk('telegram')->delete('documents/report.pdf');</code></pre>
+                </div>
+                
+                <div class="example">
+                    <h2>Event Handling</h2>
+                    <pre><code>use Shamimstack\Tgsdk\Events\TelegramUploadCompleted;
+use Shamimstack\Tgsdk\Events\TelegramUploadFailed;
+
+// In EventServiceProvider
+Event::listen(TelegramUploadCompleted::class, function ($event) {
+    Log::info("File uploaded: {$event->path}", ['file_id' => $event->fileId]);
+});
+
+Event::listen(TelegramUploadFailed::class, function ($event) {
+    Log::error("Upload failed: {$event->path}", ['error' => $event->error]);
+});</code></pre>
+                </div>
+                
+                <div class="example">
+                    <h2>Available Events</h2>
+                    <table class="events-table">
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Triggered When</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>TelegramUploadQueued</code></td>
+                                <td>File upload job dispatched to Redis</td>
+                            </tr>
+                            <tr>
+                                <td><code>TelegramUploadCompleted</code></td>
+                                <td>Upload confirmed successful</td>
+                            </tr>
+                            <tr>
+                                <td><code>TelegramUploadFailed</code></td>
+                                <td>Upload failed after all retries</td>
+                            </tr>
+                            <tr>
+                                <td><code>TelegramChunkCompleted</code></td>
+                                <td>Individual chunk upload confirmed</td>
+                            </tr>
+                            <tr>
+                                <td><code>TelegramChunkFailed</code></td>
+                                <td>Individual chunk upload failed</td>
+                            </tr>
+                            <tr>
+                                <td><code>TelegramUploadStalled</code></td>
+                                <td>Upload detected as stalled</td>
+                            </tr>
+                            <tr>
+                                <td><code>TelegramFileDeleted</code></td>
+                                <td>File record deleted</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="configuration" class="section">
+            <h1><i class="fas fa-cog"></i> Configuration</h1>
+            
+            <div class="config-table-container">
+                <h2>Configuration Options</h2>
+                <p>Key configuration options available in <code>config/telegram-storage.php</code>:</p>
+                
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Option</th>
+                            <th>Default</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>channels</code></td>
+                            <td><code>[]</code></td>
+                            <td>List of Telegram channel IDs for storage</td>
+                        </tr>
+                        <tr>
+                            <td><code>rotation_strategy</code></td>
+                            <td><code>round-robin</code></td>
+                            <td>Channel selection: <code>round-robin</code>, <code>least-used</code>, <code>capacity-aware</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>chunk_threshold</code></td>
+                            <td><code>1950000000</code></td>
+                            <td>File size (bytes) above which chunking activates</td>
+                        </tr>
+                        <tr>
+                            <td><code>chunk_size</code></td>
+                            <td><code>1950000000</code></td>
+                            <td>Size of each chunk</td>
+                        </tr>
+                        <tr>
+                            <td><code>chunk_compression</code></td>
+                            <td><code>false</code></td>
+                            <td>Enable gzip compression per chunk</td>
+                        </tr>
+                        <tr>
+                            <td><code>chunk_encryption</code></td>
+                            <td><code>false</code></td>
+                            <td>Enable AES-256-GCM encryption per chunk</td>
+                        </tr>
+                        <tr>
+                            <td><code>download.signed_urls</code></td>
+                            <td><code>false</code></td>
+                            <td>Enable signed download URLs</td>
+                        </tr>
+                        <tr>
+                            <td><code>download.url_ttl</code></td>
+                            <td><code>3600</code></td>
+                            <td>Signed URL TTL in seconds</td>
+                        </tr>
+                        <tr>
+                            <td><code>cdn.enabled</code></td>
+                            <td><code>false</code></td>
+                            <td>Enable CDN URL prefix</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="api-reference" class="section">
+            <h1><i class="fas fa-book"></i> API Reference</h1>
+            
+            <div class="api-section">
+                <h2>Core Classes</h2>
+                
+                <div class="api-class">
+                    <h3>TelegramStorageAdapter</h3>
+                    <p><strong>Namespace:</strong> <code>Shamimstack\Tgsdk\TelegramStorage</code></p>
+                    <p><strong>Description:</strong> Main adapter implementing Flysystem's FilesystemAdapter interface</p>
+                    
+                    <h4>Methods:</h4>
+                    <table class="api-table">
+                        <tr>
+                            <td><code>write($path, $contents, Config $config)</code></td>
+                            <td>Write file contents to Telegram</td>
+                        </tr>
+                        <tr>
+                            <td><code>writeStream($path, $resource, Config $config)</code></td>
+                            <td>Write file from stream to Telegram</td>
+                        </tr>
+                        <tr>
+                            <td><code>read($path)</code></td>
+                            <td>Read file contents from Telegram</td>
+                        </tr>
+                        <tr>
+                            <td><code>readStream($path)</code></td>
+                            <td>Read file as stream from Telegram</td>
+                        </tr>
+                        <tr>
+                            <td><code>delete($path)</code></td>
+                            <td>Delete file from Telegram and database</td>
+                        </tr>
+                        <tr>
+                            <td><code>fileExists($path)</code></td>
+                            <td>Check if file exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>directoryExists($path)</code></td>
+                            <td>Check if directory exists</td>
+                        </tr>
+                        <tr>
+                            <td><code>getSize($path)</code></td>
+                            <td>Get file size in bytes</td>
+                        </tr>
+                        <tr>
+                            <td><code>getMimeType($path)</code></td>
+                            <td>Get file MIME type</td>
+                        </tr>
+                        <tr>
+                            <td><code>getUrl($path)</code></td>
+                            <td>Get download URL (optionally signed)</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="api-class">
+                    <h3>ChannelRotator</h3>
+                    <p><strong>Namespace:</strong> <code>Shamimstack\Tgsdk\TelegramStorage</code></p>
+                    <p><strong>Description:</strong> Selects optimal Telegram channel based on rotation strategy</p>
+                    
+                    <h4>Methods:</h4>
+                    <table class="api-table">
+                        <tr>
+                            <td><code>selectChannel()</code></td>
+                            <td>Select next available channel</td>
+                        </tr>
+                        <tr>
+                            <td><code>markUsed($channelId)</code></td>
+                            <td>Mark channel as used</td>
+                        </tr>
+                        <tr>
+                            <td><code>getStrategy()</code></td>
+                            <td>Get current rotation strategy</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="api-class">
+                    <h3>ChunkManager</h3>
+                    <p><strong>Namespace:</strong> <code>Shamimstack\Tgsdk\TelegramStorage</code></p>
+                    <p><strong>Description:</strong> Manages file chunking and reassembly</p>
+                    
+                    <h4>Methods:</h4>
+                    <table class="api-table">
+                        <tr>
+                            <td><code>shouldChunk($size)</code></td>
+                            <td>Determine if file should be chunked</td>
+                        </tr>
+                        <tr>
+                            <td><code>createChunks($fileId, $size)</code></td>
+                            <td>Create chunk records for file</td>
+                        </tr>
+                        <tr>
+                            <td><code>reassemble($fileId)</code></td>
+                            <td>Reassemble file from chunks</td>
+                        </tr>
+                        <tr>
+                            <td><code>compressChunk($data)</code></td>
+                            <td>Compress chunk data</td>
+                        </tr>
+                        <tr>
+                            <td><code>encryptChunk($data)</code></td>
+                            <td>Encrypt chunk data</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="api-class">
+                    <h3>IntegrityVerifier</h3>
+                    <p><strong>Namespace:</strong> <code>Shamimstack\Tgsdk\TelegramStorage</code></p>
+                    <p><strong>Description:</strong> Verifies data integrity using checksums</p>
+                    
+                    <h4>Methods:</h4>
+                    <table class="api-table">
+                        <tr>
+                            <td><code>generateChecksum($data)</code></td>
+                            <td>Generate SHA-256 checksum</td>
+                        </tr>
+                        <tr>
+                            <td><code>verifyChecksum($data, $checksum)</code></td>
+                            <td>Verify data against checksum</td>
+                        </tr>
+                        <tr>
+                            <td><code>generateFileHash($path)</code></td>
+                            <td>Generate file hash</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="simulation" class="section">
+            <h1><i class="fas fa-microchip"></i> Real-Time Simulation</h1>
+            
+            <div class="simulation-container">
+                <div class="simulation-header">
+                    <h2 class="simulation-title"><i class="fas fa-play-circle"></i> TGSDK Live Simulation</h2>
+                    <div class="simulation-controls">
+                        <button class="simulation-btn simulation-btn-primary" onclick="startSimulation()">
+                            <i class="fas fa-play"></i> Start
+                        </button>
+                        <button class="simulation-btn simulation-btn-secondary" onclick="pauseSimulation()">
+                            <i class="fas fa-pause"></i> Pause
+                        </button>
+                        <button class="simulation-btn simulation-btn-success" onclick="resetSimulation()">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                        <div class="speed-control">
+                            <label>Speed:</label>
+                            <input type="range" min="0.5" max="3" step="0.5" value="1" class="speed-slider" id="speedSlider" onchange="updateSpeed(this.value)">
+                            <span style="color: #94a3b8; font-size: 0.875rem; margin-left: 0.5rem;" id="speedValue">1x</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="simulation-grid">
+                    <!-- Laravel App Module -->
+                    <div class="simulation-module" id="module-laravel">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <i class="fab fa-laravel"></i>
+                            </div>
+                            <div>
+                                <div class="module-title">Laravel Application</div>
+                                <div style="color: #64748b; font-size: 0.75rem;">Storage Facade</div>
+                            </div>
+                            <div class="module-status status-idle" id="status-laravel">Idle</div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">Current Operation:</div>
+                            <div id="laravel-operation" style="font-size: 0.875rem; color: #1e293b; font-family: 'Fira Code', monospace;">-</div>
+                        </div>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0, 136, 204, 0.1);">
+                            <div style="font-size: 0.75rem; color: #64748b;">Files Processed: <strong id="laravel-files" style="color: #00d4ff;">0</strong></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Adapter Module -->
+                    <div class="simulation-module" id="module-adapter">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div>
+                                <div class="module-title">TelegramStorageAdapter</div>
+                                <div style="color: #64748b; font-size: 0.75rem;">Flysystem Interface</div>
+                            </div>
+                            <div class="module-status status-idle" id="status-adapter">Idle</div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">Active Method:</div>
+                            <div id="adapter-method" style="font-size: 0.875rem; color: #1e293b; font-family: 'Fira Code', monospace;">-</div>
+                        </div>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0, 136, 204, 0.1);">
+                            <div style="font-size: 0.75rem; color: #64748b;">Operations: <strong id="adapter-ops" style="color: #00d4ff;">0</strong></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chunk Manager Module -->
+                    <div class="simulation-module" id="module-chunk">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <i class="fas fa-th-large"></i>
+                            </div>
+                            <div>
+                                <div class="module-title">ChunkManager</div>
+                                <div style="color: #64748b; font-size: 0.75rem;">File Chunking</div>
+                            </div>
+                            <div class="module-status status-idle" id="status-chunk">Idle</div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">Chunk Status:</div>
+                            <div id="chunk-status" style="font-size: 0.875rem; color: #1e293b;">No chunks</div>
+                        </div>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0, 136, 204, 0.1);">
+                            <div style="font-size: 0.75rem; color: #64748b;">Chunks Created: <strong id="chunk-count" style="color: #00d4ff;">0</strong></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Redis Queue Module -->
+                    <div class="simulation-module" id="module-redis">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div>
+                                <div class="module-title">Redis Queue</div>
+                                <div style="color: #64748b; font-size: 0.75rem;">Job Queue</div>
+                            </div>
+                            <div class="module-status status-idle" id="status-redis">Idle</div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">Queue Length:</div>
+                            <div id="queue-length" style="font-size: 0.875rem; color: #1e293b;">0 jobs</div>
+                        </div>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0, 136, 204, 0.1);">
+                            <div style="font-size: 0.75rem; color: #64748b;">Jobs Enqueued: <strong id="jobs-enqueued" style="color: #00d4ff;">0</strong></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Python Worker Module -->
+                    <div class="simulation-module" id="module-worker">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <i class="fab fa-python"></i>
+                            </div>
+                            <div>
+                                <div class="module-title">Python Worker</div>
+                                <div style="color: #64748b; font-size: 0.75rem;">Session Pool</div>
+                            </div>
+                            <div class="module-status status-idle" id="status-worker">Idle</div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">Active Sessions:</div>
+                            <div id="active-sessions" style="font-size: 0.875rem; color: #1e293b;">0/5</div>
+                        </div>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0, 136, 204, 0.1);">
+                            <div style="font-size: 0.75rem; color: #64748b;">Uploads Completed: <strong id="worker-uploads" style="color: #00d4ff;">0</strong></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Telegram Module -->
+                    <div class="simulation-module" id="module-telegram">
+                        <div class="module-header">
+                            <div class="module-icon">
+                                <i class="fab fa-telegram-plane"></i>
+                            </div>
+                            <div>
+                                <div class="module-title">Telegram Channels</div>
+                                <div style="color: #64748b; font-size: 0.75rem;">MTProto Storage</div>
+                            </div>
+                            <div class="module-status status-idle" id="status-telegram">Idle</div>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 0.5rem;">Active Channel:</div>
+                            <div id="active-channel" style="font-size: 0.875rem; color: #1e293b;">Channel #1</div>
+                        </div>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(0, 136, 204, 0.1);">
+                            <div style="font-size: 0.75rem; color: #64748b;">Messages Stored: <strong id="telegram-messages" style="color: #00d4ff;">0</strong></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Metrics Panel -->
+                <div class="metrics-panel">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem; font-size: 1.125rem;"><i class="fas fa-chart-line"></i> Performance Metrics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-label">Response Time</div>
+                            <div class="metric-value" id="metric-response">0</div>
+                            <div class="metric-unit">ms</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Throughput</div>
+                            <div class="metric-value" id="metric-throughput">0</div>
+                            <div class="metric-unit">MB/s</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Success Rate</div>
+                            <div class="metric-value" id="metric-success">100</div>
+                            <div class="metric-unit">%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Queue Depth</div>
+                            <div class="metric-value" id="metric-queue">0</div>
+                            <div class="metric-unit">jobs</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Avg Upload Size</div>
+                            <div class="metric-value" id="metric-size">0</div>
+                            <div class="metric-unit">MB</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">Total Data</div>
+                            <div class="metric-value" id="metric-total">0</div>
+                            <div class="metric-unit">GB</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Log Terminal -->
+                <div class="log-terminal" id="logTerminal">
+                    <div class="log-entry">
+                        <span class="log-timestamp">[--:--:--]</span>
+                        <span class="log-info">Simulation initialized. Click "Start" to begin.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sass-docs" class="section">
+            <h1><i class="fab fa-sass"></i> SASS/CSS Architecture</h1>
+            
+            <div class="sass-documentation modern-sass-design">
+                <div class="sass-header-card">
+                    <h2><span class="gradient-text">Stylesheet Structure</span></h2>
+                    <p class="sass-description">Modern SCSS architecture with variables, mixins, and component styles</p>
+                </div>
+                <h2>Stylesheet Structure</h2>
+                <pre class="folder-structure">docs/assets/
+├── scss/
+│   ├── _variables.scss      # SCSS variables
+│   ├── _mixins.scss         # SCSS mixins
+│   ├── _base.scss           # Base styles
+│   ├── _layout.scss         # Layout components
+│   ├── _components.scss     # UI components
+│   ├── _animations.scss     # Animations
+│   └── style.scss           # Main stylesheet
+├── css/
+│   └── style.css            # Compiled CSS
+└── js/
+    └── main.js              # JavaScript for animations</pre>
+                
+                <div class="sass-section-card">
+                    <h2 class="sass-heading"><span class="gradient-text">SCSS Variables</span></h2>
+                    <div class="variable-group glass-panel">
+                    <h3>Color Variables</h3>
+                    <pre><code>// Primary colors
+$primary-color: #0088cc;        // Telegram blue
+$primary-dark: #006699;
+$primary-light: #33a0e0;
+
+// Secondary colors
+$secondary-color: #f59e0b;      // Amber
+$secondary-dark: #d97706;
+$secondary-light: #fbbf24;
+
+// Neutral colors
+$gray-100: #f7fafc;
+$gray-200: #edf2f7;
+$gray-300: #e2e8f0;
+$gray-400: #cbd5e0;
+$gray-500: #a0aec0;
+$gray-600: #718096;
+$gray-700: #4a5568;
+$gray-800: #2d3748;
+$gray-900: #1a202c;
+
+// Semantic colors
+$success-color: #48bb78;
+$warning-color: #ed8936;
+$error-color: #f56565;
+$info-color: #4299e1;</code></pre>
+                    
+                    <h3>Typography Variables</h3>
+                    <pre><code>// Font families
+$font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-family-mono: 'Fira Code', 'Courier New', monospace;
+
+// Font sizes
+$font-size-xs: 0.75rem;     // 12px
+$font-size-sm: 0.875rem;    // 14px
+$font-size-base: 1rem;      // 16px
+$font-size-lg: 1.125rem;    // 18px
+$font-size-xl: 1.25rem;     // 20px
+$font-size-2xl: 1.5rem;     // 24px
+$font-size-3xl: 1.875rem;   // 30px
+$font-size-4xl: 2.25rem;    // 36px
+
+// Line heights
+$line-height-none: 1;
+$line-height-tight: 1.25;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;</code></pre>
+                    
+                    <h3>Spacing Variables</h3>
+                    <pre><code>// Spacing scale
+$spacing-0: 0;
+$spacing-1: 0.25rem;    // 4px
+$spacing-2: 0.5rem;     // 8px
+$spacing-3: 0.75rem;    // 12px
+$spacing-4: 1rem;       // 16px
+$spacing-5: 1.25rem;    // 20px
+$spacing-6: 1.5rem;     // 24px
+$spacing-8: 2rem;       // 32px
+$spacing-10: 2.5rem;    // 40px
+$spacing-12: 3rem;      // 48px
+$spacing-16: 4rem;      // 64px</code></pre>
+                    
+                    <h3>Breakpoint Variables</h3>
+                    <pre><code>// Responsive breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;</code></pre>
+                    </div>
+                </div>
+                
+                <div class="sass-section-card">
+                    <h2 class="sass-heading"><span class="gradient-text">SCSS Mixins</span></h2>
+                    <div class="mixin-group glass-panel">
+                    <h3>Layout Mixins</h3>
+                    <pre><code>// Flexbox centering
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Flexbox space-between
+@mixin flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+// Grid layout
+@mixin grid-layout($columns, $gap: $spacing-4) {
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: $gap;
+}</code></pre>
+                    
+                    <h3>Responsive Mixins</h3>
+                    <pre><code>// Media query breakpoints
+@mixin respond-to($breakpoint) {
+    @if $breakpoint == sm {
+        @media (min-width: $breakpoint-sm) { @content; }
+    }
+    @else if $breakpoint == md {
+        @media (min-width: $breakpoint-md) { @content; }
+    }
+    @else if $breakpoint == lg {
+        @media (min-width: $breakpoint-lg) { @content; }
+    }
+    @else if $breakpoint == xl {
+        @media (min-width: $breakpoint-xl) { @content; }
+    }
+}
+
+// Mobile-first responsive helper
+@mixin mobile-first {
+    @content;
+    @include respond-to(md) {
+        @content;
+    }
+}</code></pre>
+                    
+                    <h3>Component Mixins</h3>
+                    <pre><code>// Card styling
+@mixin card-style {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: $spacing-6;
+    transition: transform 0.2s, box-shadow 0.2s;
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+}
+
+// Button styling
+@mixin button-style($variant: primary) {
+    padding: $spacing-3 $spacing-6;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    
+    @if $variant == primary {
+        background: $primary-color;
+        color: white;
+        
+        &:hover {
+            background: $primary-dark;
+        }
+    }
+    @else if $variant == secondary {
+        background: $secondary-color;
+        color: white;
+        
+        &:hover {
+            background: $secondary-dark;
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="sass-section-card">
+                    <h2 class="sass-heading"><span class="gradient-text">Component Styles</span></h2>
+                    <div class="component-style-group">
+                    <h3>Sidebar Component</h3>
+                    <pre><code>.sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, $gray-900 0%, $gray-800 100%);
+    color: $gray-100;
+    padding: $spacing-6;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    
+    .logo {
+        margin-bottom: $spacing-8;
+        
+        h1 {
+            font-size: $font-size-2xl;
+            color: $primary-light;
+            margin-bottom: $spacing-2;
+        }
+    }
+    
+    .nav-menu {
+        list-style: none;
+        
+        li {
+            margin-bottom: $spacing-2;
+            
+            a {
+                display: flex;
+                align-items: center;
+                gap: $spacing-3;
+                padding: $spacing-3 $spacing-4;
+                border-radius: 6px;
+                color: $gray-300;
+                text-decoration: none;
+                transition: all 0.2s;
+                
+                &:hover,
+                &.active {
+                    background: rgba($primary-color, 0.2);
+                    color: $primary-light;
+                }
+                
+                i {
+                    width: 20px;
+                }
+            }
+        }
+    }
+}</code></pre>
+                    
+                    <h3>Feature Cards</h3>
+                    <pre><code>.features-grid {
+    @include grid-layout(3, $spacing-6);
+    margin-top: $spacing-8;
+    
+    @include respond-to(lg) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to(sm) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.feature-card {
+    @include card-style;
+    text-align: center;
+    
+    i {
+        font-size: $font-size-4xl;
+        color: $primary-color;
+        margin-bottom: $spacing-4;
+    }
+    
+    h3 {
+        font-size: $font-size-xl;
+        margin-bottom: $spacing-3;
+        color: $gray-800;
+    }
+    
+    p {
+        color: $gray-600;
+        line-height: $line-height-relaxed;
+    }
+}</code></pre>
+                    
+                    <h3>Code Blocks</h3>
+                    <pre><code>pre {
+    background: $gray-900;
+    color: $gray-100;
+    padding: $spacing-6;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: $font-family-mono;
+    font-size: $font-size-sm;
+    line-height: $line-height-relaxed;
+    border-left: 4px solid $primary-color;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+    
+    code {
+        color: inherit;
+        background: transparent;
+        padding: 0;
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="sass-section-card">
+                    <h2 class="sass-heading"><span class="gradient-text">Animations</span></h2>
+                    <div class="animation-group glass-panel">
+                    <h3>Workflow Animation</h3>
+                    <pre><code>@keyframes flowAnimation {
+    0% {
+        opacity: 0.3;
+        transform: scale(0.95);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 0.3;
+        transform: scale(0.95);
+    }
+}
+
+@keyframes dotMovement {
+    0% {
+        transform: translateX(0);
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0.5;
+    }
+}
+
+.workflow-step.active {
+    animation: flowAnimation 2s ease-in-out infinite;
+    
+    .step-icon {
+        background: linear-gradient(135deg, $primary-color, $primary-light);
+        box-shadow: 0 4px 12px rgba($primary-color, 0.4);
+    }
+}
+
+.animated-dot {
+    width: 12px;
+    height: 12px;
+    background: $primary-color;
+    border-radius: 50%;
+    animation: dotMovement 1.5s ease-in-out infinite;
+}</code></pre>
+                    
+                    <h3>Fade In Animation</h3>
+                    <pre><code>@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section {
+    animation: fadeIn 0.5s ease-out;
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="sass-section-card">
+                    <h2 class="sass-heading"><span class="gradient-text">CSS Architecture Principles</span></h2>
+                    <div class="principles-group">
+                    <h3>BEM Methodology</h3>
+                    <p>We follow the BEM (Block Element Modifier) methodology for naming CSS classes:</p>
+                    <pre><code>.block {}
+.block__element {}
+.block--modifier {}
+
+// Example:
+.sidebar {}                    // Block
+.sidebar__nav-menu {}          // Element
+.sidebar__nav-item--active {}  // Modifier</code></pre>
+                    
+                    <h3>Mobile-First Approach</h3>
+                    <p>All styles are written mobile-first, then enhanced for larger screens:</p>
+                    <pre><code>// Base styles (mobile)
+.component {
+    padding: $spacing-4;
+    font-size: $font-size-sm;
+}
+
+// Tablet and up
+@include respond-to(md) {
+    .component {
+        padding: $spacing-6;
+        font-size: $font-size-base;
+    }
+}
+
+// Desktop and up
+@include respond-to(lg) {
+    .component {
+        padding: $spacing-8;
+    }
+}</code></pre>
+                    
+                    <h3>CSS Custom Properties</h3>
+                    <p>CSS custom properties (variables) are used for dynamic theming:</p>
+                    <pre><code>:root {
+    --primary-color: #{$primary-color};
+    --secondary-color: #{$secondary-color};
+    --spacing-unit: #{$spacing-4};
+    --border-radius: 8px;
+}
+
+.component {
+    background: var(--primary-color);
+    padding: var(--spacing-unit);
+    border-radius: var(--border-radius);
+}</code></pre>
+                </div>
+            </div>
+        </section>
+        
+        <div class="sass-footer-card">
+            <p class="sass-note"><strong>TGSDK Docs</strong> - Modern design system built with SASS/SCSS</p>
+        </div>
+    </main>
+
+    <script>
+        // Simulation State
+        let simulationRunning = false;
+        let simulationPaused = false;
+        let simulationSpeed = 1;
+        let simulationInterval;
+        let stepIndex = 0;
+        
+        // Counters
+        let stats = {
+            filesProcessed: 0,
+            operations: 0,
+            chunksCreated: 0,
+            jobsEnqueued: 0,
+            uploadsCompleted: 0,
+            messagesStored: 0,
+            totalDataGB: 0,
+            totalSizeMB: 0,
+            responseTimes: [],
+            successCount: 0,
+            errorCount: 0
+        };
+        
+        // Sample file data for simulation
+        const sampleFiles = [
+            { name: 'document.pdf', size: 5.2, type: 'document' },
+            { name: 'image.jpg', size: 2.8, type: 'image' },
+            { name: 'video.mp4', size: 1850, type: 'video', needsChunking: true },
+            { name: 'archive.zip', size: 450, type: 'archive' },
+            { name: 'audio.mp3', size: 8.5, type: 'audio' }
+        ];
+        
+        const channels = ['Channel #1', 'Channel #2', 'Channel #3'];
+        
+        // Update module status
+        function updateModuleStatus(moduleId, status) {
+            const statusEl = document.getElementById(`status-${moduleId}`);
+            statusEl.className = `module-status status-${status}`;
+            statusEl.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+        }
+        
+        // Add log entry
+        function addLog(message, type = 'info') {
+            const terminal = document.getElementById('logTerminal');
+            const now = new Date();
+            const timestamp = now.toTimeString().split(' ')[0];
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.innerHTML = `
+                <span class="log-timestamp">[${timestamp}]</span>
+                <span class="log-${type}">${message}</span>
+            `;
+            
+            terminal.appendChild(logEntry);
+            terminal.scrollTop = terminal.scrollHeight;
+            
+            // Keep only last 50 logs
+            while (terminal.children.length > 50) {
+                terminal.removeChild(terminal.firstChild);
+            }
+        }
+        
+        // Create data particle animation
+        function createDataParticle(fromId, toId) {
+            const fromEl = document.getElementById(fromId);
+            const toEl = document.getElementById(toId);
+            
+            if (!fromEl || !toEl) return;
+            
+            const fromRect = fromEl.getBoundingClientRect();
+            const toRect = toEl.getBoundingClientRect();
+            
+            const particle = document.createElement('div');
+            particle.className = 'data-particle';
+            particle.style.left = (fromRect.left + fromRect.width / 2) + 'px';
+            particle.style.top = (fromRect.top + fromRect.height / 2) + 'px';
+            
+            document.body.appendChild(particle);
+            
+            const dx = toRect.left + toRect.width / 2 - fromRect.left - fromRect.width / 2;
+            const dy = toRect.top + toRect.height / 2 - fromRect.top - fromRect.height / 2;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const duration = (distance / 200) / simulationSpeed;
+            
+            particle.animate([
+                { left: particle.style.left, top: particle.style.top },
+                { left: (toRect.left + toRect.width / 2) + 'px', top: (toRect.top + toRect.height / 2) + 'px' }
+            ], {
+                duration: duration * 1000,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            }).onfinish = () => {
+                particle.remove();
+            };
+        }
+        
+        // Update metrics display
+        function updateMetrics() {
+            const avgResponse = stats.responseTimes.length > 0 
+                ? stats.responseTimes.reduce((a, b) => a + b, 0) / stats.responseTimes.length 
+                : 0;
+            
+            const throughput = stats.responseTimes.length > 0
+                ? (stats.totalSizeMB / stats.responseTimes.reduce((a, b) => a + b, 0)) * 1000
+                : 0;
+            
+            const successRate = stats.successCount + stats.errorCount > 0
+                ? (stats.successCount / (stats.successCount + stats.errorCount)) * 100
+                : 100;
+            
+            document.getElementById('metric-response').textContent = avgResponse.toFixed(0);
+            document.getElementById('metric-throughput').textContent = throughput.toFixed(1);
+            document.getElementById('metric-success').textContent = successRate.toFixed(0);
+            document.getElementById('metric-queue').textContent = stats.jobsEnqueued - stats.uploadsCompleted;
+            document.getElementById('metric-size').textContent = (stats.totalSizeMB / (stats.filesProcessed || 1)).toFixed(1);
+            document.getElementById('metric-total').textContent = stats.totalDataGB.toFixed(3);
+        }
+        
+        // Simulation step
+        function runSimulationStep() {
+            if (!simulationRunning || simulationPaused) return;
+            
+            const file = sampleFiles[Math.floor(Math.random() * sampleFiles.length)];
+            const startTime = Date.now();
+            
+            // Step 1: Laravel initiates upload
+            updateModuleStatus('laravel', 'processing');
+            document.getElementById('laravel-operation').textContent = `Uploading ${file.name} (${file.size} MB)`;
+            addLog(`File upload initiated: ${file.name}`, 'info');
+            
+            setTimeout(() => {
+                createDataParticle('module-laravel', 'module-adapter');
+                
+                // Step 2: Adapter processes
+                updateModuleStatus('adapter', 'processing');
+                document.getElementById('adapter-method').textContent = 'write()';
+                stats.operations++;
+                document.getElementById('adapter-ops').textContent = stats.operations;
+                addLog(`Adapter method called: write(${file.name})`, 'info');
+                
+                setTimeout(() => {
+                    createDataParticle('module-adapter', 'module-chunk');
+                    
+                    // Step 3: Chunk Manager checks
+                    updateModuleStatus('chunk', 'processing');
+                    let chunkInfo = 'No chunking needed';
+                    
+                    if (file.needsChunking) {
+                        const chunks = Math.ceil(file.size / 1950);
+                        stats.chunksCreated += chunks;
+                        chunkInfo = `Split into ${chunks} chunks`;
+                        addLog(`File chunked: ${chunks} parts created`, 'info');
+                    } else {
+                        addLog(`File size OK: No chunking required`, 'success');
+                    }
+                    
+                    document.getElementById('chunk-status').textContent = chunkInfo;
+                    document.getElementById('chunk-count').textContent = stats.chunksCreated;
+                    
+                    setTimeout(() => {
+                        createDataParticle('module-chunk', 'module-redis');
+                        
+                        // Step 4: Redis Queue
+                        updateModuleStatus('redis', 'processing');
+                        stats.jobsEnqueued++;
+                        document.getElementById('queue-length').textContent = `${stats.jobsEnqueued - stats.uploadsCompleted} jobs`;
+                        document.getElementById('jobs-enqueued').textContent = stats.jobsEnqueued;
+                        addLog(`Job enqueued to Redis queue`, 'info');
+                        
+                        setTimeout(() => {
+                            createDataParticle('module-redis', 'module-worker');
+                            
+                            // Step 5: Python Worker
+                            updateModuleStatus('worker', 'processing');
+                            const activeSessions = Math.floor(Math.random() * 3) + 1;
+                            document.getElementById('active-sessions').textContent = `${activeSessions}/5`;
+                            addLog(`Worker picked up job from queue`, 'info');
+                            
+                            setTimeout(() => {
+                                createDataParticle('module-worker', 'module-telegram');
+                                
+                                // Step 6: Telegram Upload
+                                updateModuleStatus('telegram', 'processing');
+                                const channel = channels[Math.floor(Math.random() * channels.length)];
+                                document.getElementById('active-channel').textContent = channel;
+                                addLog(`Uploading to ${channel} via MTProto`, 'info');
+                                
+                                setTimeout(() => {
+                                    // Completion
+                                    const endTime = Date.now();
+                                    const responseTime = endTime - startTime;
+                                    stats.responseTimes.push(responseTime);
+                                    stats.uploadsCompleted++;
+                                    stats.messagesStored++;
+                                    stats.filesProcessed++;
+                                    stats.totalSizeMB += file.size;
+                                    stats.totalDataGB = stats.totalSizeMB / 1024;
+                                    stats.successCount++;
+                                    
+                                    updateModuleStatus('laravel', 'active');
+                                    updateModuleStatus('adapter', 'idle');
+                                    updateModuleStatus('chunk', 'idle');
+                                    updateModuleStatus('redis', 'idle');
+                                    updateModuleStatus('worker', 'active');
+                                    updateModuleStatus('telegram', 'active');
+                                    
+                                    document.getElementById('laravel-files').textContent = stats.filesProcessed;
+                                    document.getElementById('worker-uploads').textContent = stats.uploadsCompleted;
+                                    document.getElementById('telegram-messages').textContent = stats.messagesStored;
+                                    document.getElementById('queue-length').textContent = `${stats.jobsEnqueued - stats.uploadsCompleted} jobs`;
+                                    
+                                    addLog(`Upload completed successfully in ${responseTime}ms`, 'success');
+                                    updateMetrics();
+                                    
+                                    // Reset modules after delay
+                                    setTimeout(() => {
+                                        if (simulationRunning && !simulationPaused) {
+                                            updateModuleStatus('laravel', 'idle');
+                                            updateModuleStatus('worker', 'idle');
+                                            updateModuleStatus('telegram', 'idle');
+                                            document.getElementById('laravel-operation').textContent = '-';
+                                            document.getElementById('adapter-method').textContent = '-';
+                                            document.getElementById('chunk-status').textContent = 'No chunks';
+                                        }
+                                    }, 2000 / simulationSpeed);
+                                    
+                                }, 1500 / simulationSpeed);
+                            }, 800 / simulationSpeed);
+                        }, 600 / simulationSpeed);
+                    }, 500 / simulationSpeed);
+                }, 400 / simulationSpeed);
+            }, 300 / simulationSpeed);
+        }
+        
+        // Start simulation
+        function startSimulation() {
+            if (simulationRunning) return;
+            
+            simulationRunning = true;
+            simulationPaused = false;
+            addLog('Simulation started', 'success');
+            
+            // Initialize all modules to active
+            ['laravel', 'adapter', 'chunk', 'redis', 'worker', 'telegram'].forEach(mod => {
+                updateModuleStatus(mod, 'idle');
+            });
+            
+            // Run first step immediately
+            runSimulationStep();
+            
+            // Continue with interval
+            simulationInterval = setInterval(runSimulationStep, 5000 / simulationSpeed);
+        }
+        
+        // Pause simulation
+        function pauseSimulation() {
+            if (!simulationRunning) return;
+            
+            simulationPaused = !simulationPaused;
+            
+            if (simulationPaused) {
+                clearInterval(simulationInterval);
+                addLog('Simulation paused', 'warning');
+            } else {
+                addLog('Simulation resumed', 'success');
+                simulationInterval = setInterval(runSimulationStep, 5000 / simulationSpeed);
+            }
+        }
+        
+        // Reset simulation
+        function resetSimulation() {
+            simulationRunning = false;
+            simulationPaused = false;
+            clearInterval(simulationInterval);
+            
+            // Reset all counters
+            stats = {
+                filesProcessed: 0,
+                operations: 0,
+                chunksCreated: 0,
+                jobsEnqueued: 0,
+                uploadsCompleted: 0,
+                messagesStored: 0,
+                totalDataGB: 0,
+                totalSizeMB: 0,
+                responseTimes: [],
+                successCount: 0,
+                errorCount: 0
+            };
+            
+            // Reset UI
+            ['laravel', 'adapter', 'chunk', 'redis', 'worker', 'telegram'].forEach(mod => {
+                updateModuleStatus(mod, 'idle');
+            });
+            
+            document.getElementById('laravel-files').textContent = '0';
+            document.getElementById('adapter-ops').textContent = '0';
+            document.getElementById('chunk-count').textContent = '0';
+            document.getElementById('jobs-enqueued').textContent = '0';
+            document.getElementById('worker-uploads').textContent = '0';
+            document.getElementById('telegram-messages').textContent = '0';
+            document.getElementById('laravel-operation').textContent = '-';
+            document.getElementById('adapter-method').textContent = '-';
+            document.getElementById('chunk-status').textContent = 'No chunks';
+            document.getElementById('queue-length').textContent = '0 jobs';
+            document.getElementById('active-sessions').textContent = '0/5';
+            document.getElementById('active-channel').textContent = 'Channel #1';
+            
+            // Reset metrics
+            document.getElementById('metric-response').textContent = '0';
+            document.getElementById('metric-throughput').textContent = '0';
+            document.getElementById('metric-success').textContent = '100';
+            document.getElementById('metric-queue').textContent = '0';
+            document.getElementById('metric-size').textContent = '0';
+            document.getElementById('metric-total').textContent = '0';
+            
+            // Clear and reset log
+            const terminal = document.getElementById('logTerminal');
+            terminal.innerHTML = '';
+            addLog('Simulation reset', 'info');
+            addLog('Ready to start', 'info');
+        }
+        
+        // Update speed
+        function updateSpeed(value) {
+            simulationSpeed = parseFloat(value);
+            document.getElementById('speedValue').textContent = value + 'x';
+            addLog(`Simulation speed set to ${value}x`, 'info');
+            
+            // Restart interval with new speed if running
+            if (simulationRunning && !simulationPaused) {
+                clearInterval(simulationInterval);
+                simulationInterval = setInterval(runSimulationStep, 5000 / simulationSpeed);
+            }
+        }
+        
+        // Trigger error scenario (for demo)
+        function triggerErrorScenario() {
+            if (!simulationRunning) return;
+            
+            addLog('Simulating network timeout...', 'warning');
+            updateModuleStatus('worker', 'error');
+            
+            setTimeout(() => {
+                addLog('Retry attempt 1/3', 'warning');
+            }, 1000 / simulationSpeed);
+            
+            setTimeout(() => {
+                addLog('Retry attempt 2/3', 'warning');
+            }, 2000 / simulationSpeed);
+            
+            setTimeout(() => {
+                addLog('Upload succeeded on retry', 'success');
+                updateModuleStatus('worker', 'active');
+                stats.successCount++;
+                updateMetrics();
+            }, 3000 / simulationSpeed);
+        }
+    </script>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

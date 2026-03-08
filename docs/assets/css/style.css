@@ -1,0 +1,968 @@
+/**
+ * Compiled CSS for Laravel Telegram Hybrid Storage Documentation
+ * Generated from SCSS source files
+ */
+
+/* ============================================
+   Reset & Base Styles
+   ============================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #2d3748;
+    background-color: #f7fafc;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+    color: #1a202c;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+h2 {
+    font-size: 2.25rem;
+    margin-top: 3rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid #0088cc;
+    display: inline-block;
+}
+
+h3 {
+    font-size: 1.875rem;
+    margin-top: 2rem;
+    color: #006699;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #4a5568;
+}
+
+a {
+    color: #0088cc;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #006699;
+    text-decoration: underline;
+}
+
+code {
+    background: #edf2f7;
+    color: #f56565;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+pre {
+    background: #1a202c;
+    color: #f7fafc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.625;
+    overflow-x: auto;
+    border-left: 4px solid #0088cc;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    margin: 1.5rem 0;
+}
+
+pre code {
+    color: inherit;
+    background: transparent;
+    padding: 0;
+}
+
+ul, ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+ul li, ol li {
+    margin-bottom: 0.5rem;
+    color: #4a5568;
+}
+
+strong {
+    font-weight: 600;
+    color: #1a202c;
+}
+
+/* ============================================
+   Layout
+   ============================================ */
+
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ============================================
+   Sidebar Navigation
+   ============================================ */
+
+.sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, #1a202c 0%, #2d3748 100%);
+    color: #f7fafc;
+    padding: 1.5rem;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 300;
+}
+
+@media (max-width: 767px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 1rem;
+    }
+}
+
+.sidebar .logo {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(203, 213, 224, 0.2);
+}
+
+.sidebar .logo h1 {
+    font-size: 1.5rem;
+    color: #33a0e0;
+    margin-bottom: 0.5rem;
+}
+
+.sidebar .logo h1 i {
+    margin-right: 0.5rem;
+}
+
+.sidebar .logo .subtitle {
+    font-size: 0.875rem;
+    color: #cbd5e0;
+    font-weight: 400;
+}
+
+.sidebar .nav-menu {
+    list-style: none;
+}
+
+.sidebar .nav-menu li {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar .nav-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    color: #e2e8f0;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.sidebar .nav-menu li a:hover,
+.sidebar .nav-menu li a.active {
+    background: rgba(0, 136, 204, 0.2);
+    color: #33a0e0;
+    transform: translateX(4px);
+}
+
+.sidebar .nav-menu li a:hover i,
+.sidebar .nav-menu li a.active i {
+    color: #33a0e0;
+}
+
+.sidebar .nav-menu li a i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.125rem;
+}
+
+/* ============================================
+   Main Content Area
+   ============================================ */
+
+.content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2.5rem 3rem;
+    max-width: 1200px;
+}
+
+@media (max-width: 767px) {
+    .content {
+        margin-left: 0;
+        padding: 1.5rem 1rem;
+    }
+}
+
+.section {
+    display: none;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   Cards & Containers
+   ============================================ */
+
+.intro-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.intro-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.intro-card h2 {
+    margin-top: 0;
+    border-bottom: none;
+    font-size: 1.875rem;
+    color: #006699;
+}
+
+.intro-card .lead {
+    font-size: 1.125rem;
+    line-height: 1.625;
+    color: #718096;
+    margin-bottom: 2rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card i {
+    font-size: 3rem;
+    color: #0088cc;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: #2d3748;
+}
+
+.feature-card p {
+    color: #718096;
+    line-height: 1.625;
+}
+
+/* ============================================
+   Tables
+   ============================================ */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table thead {
+    background: #0088cc;
+    color: white;
+}
+
+table thead th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #e2e8f0;
+    transition: background-color 0.2s;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f7fafc;
+}
+
+table tbody tr:hover {
+    background-color: #edf2f7;
+}
+
+table tbody tr:last-child {
+    border-bottom: none;
+}
+
+table tbody td {
+    padding: 1rem 1.5rem;
+    color: #4a5568;
+    font-size: 0.875rem;
+}
+
+table tbody td code {
+    background: #edf2f7;
+    color: #f56565;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+/* ============================================
+   Timeline
+   ============================================ */
+
+.timeline {
+    position: relative;
+    padding-left: 3rem;
+    margin: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #0088cc, #33a0e0);
+    border-radius: 9999px;
+}
+
+.timeline .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.timeline .timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline .timeline-marker {
+    position: absolute;
+    left: -2.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #0088cc;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.4);
+    border: 4px solid white;
+}
+
+.timeline .timeline-content {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.timeline .timeline-content h3 {
+    margin-top: 0;
+    color: #006699;
+}
+
+.timeline .timeline-content pre {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+/* ============================================
+   Architecture Diagram
+   ============================================ */
+
+.architecture-diagram {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.architecture-diagram:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.architecture-diagram .diagram-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: #f7fafc;
+    border-radius: 8px;
+}
+
+@media (max-width: 639px) {
+    .architecture-diagram .diagram-container {
+        flex-direction: column;
+    }
+}
+
+.architecture-diagram .component-box {
+    background: white;
+    border: 3px solid #0088cc;
+    border-radius: 16px;
+    padding: 1.5rem;
+    min-width: 300px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.architecture-diagram .component-box:hover {
+    transform: scale(1.02);
+}
+
+.architecture-diagram .component-box.laravel-app {
+    border-color: #ff2d20;
+}
+
+.architecture-diagram .component-box.python-worker {
+    border-color: #3776ab;
+}
+
+.architecture-diagram .component-box.telegram {
+    border-color: #0088cc;
+}
+
+.architecture-diagram .component-box h3 {
+    margin-top: 0;
+    text-align: center;
+    font-size: 1.125rem;
+}
+
+.architecture-diagram .component-box h3 i {
+    margin-right: 0.5rem;
+}
+
+.architecture-diagram .component-box .sub-components {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.architecture-diagram .component-box .sub-components .sub-component {
+    background: #f7fafc;
+    padding: 0.75rem;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-left: 3px solid #0088cc;
+}
+
+.architecture-diagram .arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: #a0aec0;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.architecture-diagram .arrow-down i {
+    font-size: 1.5rem;
+    color: #0088cc;
+    animation: bounceDown 2s infinite;
+}
+
+@keyframes bounceDown {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+}
+
+/* ============================================
+   Component Grid
+   ============================================ */
+
+.component-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.component-info {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.component-info:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.component-info h3 {
+    color: #006699;
+    margin-top: 0;
+}
+
+.component-info ul {
+    margin-left: 1rem;
+}
+
+.component-info ul li {
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.component-info ul li::before {
+    content: '✓';
+    position: absolute;
+    left: -1.5rem;
+    color: #48bb78;
+    font-weight: 700;
+}
+
+/* ============================================
+   Workflow Animation
+   ============================================ */
+
+.workflow-animation-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.workflow-animation-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.workflow-animation-container .workflow-animation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 2rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+@media (max-width: 1023px) {
+    .workflow-animation-container .workflow-animation {
+        flex-direction: column;
+    }
+}
+
+.workflow-animation-container .workflow-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    opacity: 0.5;
+    transition: all 0.2s;
+}
+
+.workflow-animation-container .workflow-step.active {
+    opacity: 1;
+}
+
+.workflow-animation-container .workflow-step.active .step-icon {
+    background: linear-gradient(135deg, #0088cc 0%, #33a0e0 100%);
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.4);
+    transform: scale(1.1);
+}
+
+.workflow-animation-container .workflow-step .step-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.workflow-animation-container .workflow-step p {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0;
+    color: #4a5568;
+}
+
+.workflow-animation-container .workflow-connector {
+    flex: 1;
+    min-width: 60px;
+    height: 4px;
+    background: #e2e8f0;
+    position: relative;
+    border-radius: 9999px;
+}
+
+@media (max-width: 1023px) {
+    .workflow-animation-container .workflow-connector {
+        width: 4px;
+        height: 40px;
+        min-width: 4px;
+    }
+}
+
+.workflow-animation-container .workflow-connector .animated-dot {
+    width: 16px;
+    height: 16px;
+    background: #0088cc;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    animation: dotMovement 1.5s ease-in-out infinite;
+    box-shadow: 0 2px 8px rgba(0, 136, 204, 0.4);
+}
+
+@media (max-width: 1023px) {
+    .workflow-animation-container .workflow-connector .animated-dot {
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        animation: dotMovementVertical 1.5s ease-in-out infinite;
+    }
+}
+
+@keyframes dotMovement {
+    0% {
+        left: 0;
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        left: 100%;
+        opacity: 0.5;
+    }
+}
+
+@keyframes dotMovementVertical {
+    0% {
+        top: 0;
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        top: 100%;
+        opacity: 0.5;
+    }
+}
+
+.workflow-animation-container .btn-play {
+    background: #0088cc;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.workflow-animation-container .btn-play:hover {
+    background: #006699;
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
+}
+
+.workflow-animation-container .btn-play i {
+    font-size: 1.125rem;
+}
+
+/* ============================================
+   Installation Steps
+   ============================================ */
+
+.installation-steps .step {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.installation-steps .step:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.installation-steps .step h2 {
+    margin-top: 0;
+    color: #006699;
+    font-size: 1.5rem;
+}
+
+.installation-steps .step pre {
+    margin-top: 1rem;
+}
+
+/* ============================================
+   Code Examples
+   ============================================ */
+
+.code-examples .example {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.code-examples .example:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.code-examples .example h2 {
+    margin-top: 0;
+    color: #006699;
+}
+
+/* ============================================
+   API Reference
+   ============================================ */
+
+.api-section .api-class {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.api-section .api-class:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.api-section .api-class h3 {
+    color: #006699;
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.api-section .api-class p {
+    margin-bottom: 1rem;
+}
+
+.api-section .api-class p strong {
+    color: #006699;
+}
+
+.api-section .api-class h4 {
+    margin-top: 1.5rem;
+    color: #4a5568;
+    font-size: 1.125rem;
+}
+
+.api-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.api-table tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.api-table tr:last-child {
+    border-bottom: none;
+}
+
+.api-table td {
+    padding: 1rem 1.5rem;
+}
+
+.api-table td:first-child {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    color: #0088cc;
+    font-weight: 500;
+    width: 40%;
+}
+
+.api-table td:last-child {
+    color: #4a5568;
+}
+
+/* ============================================
+   SASS Documentation
+   ============================================ */
+
+.sass-documentation .folder-structure {
+    background: #1a202c;
+    color: #f7fafc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.875rem;
+    overflow-x: auto;
+    border-left: 4px solid #0088cc;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.sass-documentation .variable-section,
+.sass-documentation .mixin-section,
+.sass-documentation .component-styles,
+.sass-documentation .animations-section,
+.sass-documentation .principles {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.sass-documentation .variable-section:hover,
+.sass-documentation .mixin-section:hover,
+.sass-documentation .component-styles:hover,
+.sass-documentation .animations-section:hover,
+.sass-documentation .principles:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sass-documentation .variable-section h2,
+.sass-documentation .mixin-section h2,
+.sass-documentation .component-styles h2,
+.sass-documentation .animations-section h2,
+.sass-documentation .principles h2 {
+    margin-top: 0;
+    color: #006699;
+}
+
+.sass-documentation .variable-section h3,
+.sass-documentation .mixin-section h3,
+.sass-documentation .component-styles h3,
+.sass-documentation .animations-section h3,
+.sass-documentation .principles h3 {
+    color: #f59e0b;
+    margin-top: 1.5rem;
+}
+
+/* ============================================
+   Responsive Utilities
+   ============================================ */
+
+@media print {
+    .sidebar {
+        display: none;
+    }
+    
+    .content {
+        margin-left: 0;
+        padding: 0;
+    }
+    
+    .section {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+}

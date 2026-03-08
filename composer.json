@@ -1,0 +1,47 @@
+{
+    "name": "shamimstack/tgsdk",
+    "description": "Laravel filesystem driver backed by Telegram channels with Python upload worker, chunking, channel rotation, and CDN streaming support.",
+    "keywords": ["laravel", "telegram", "storage", "filesystem", "flysystem", "cdn", "streaming"],
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^8.4",
+        "illuminate/contracts": "^12.0",
+        "illuminate/filesystem": "^12.0",
+        "illuminate/http": "^12.0",
+        "illuminate/queue": "^12.0",
+        "illuminate/routing": "^12.0",
+        "illuminate/support": "^12.0",
+        "league/flysystem": "^3.0",
+        "predis/predis": "^3.4"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shamimstack\\Tgsdk\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Shamimstack\\Tgsdk\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Shamimstack\\Tgsdk\\TelegramStorageServiceProvider"
+            ],
+            "aliases": {
+                "TelegramStorage": "Shamimstack\\Tgsdk\\Facades\\TelegramStorage"
+            }
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    }
+}

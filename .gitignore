@@ -1,0 +1,253 @@
+# TGSDK Laravel Package .gitignore
+
+## Application Files
+# Never commit the application key or environment-specific files
+.env
+.env.backup
+.env.local
+.env.*.local
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+auth.json
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
+
+## Compiled/Generated Files
+# These are generated during build/runtime
+*.compiled
+*.cache
+*.log
+*.pid
+*.seed
+*.lock
+*.swp
+*.swo
+*~
+
+## Dependencies
+# Vendor directory should not be committed (use Composer)
+/vendor/
+/vendor
+
+## Node Modules
+# Frontend dependencies (if any)
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+
+## IDE & Editor
+# Various IDE configurations and temporary files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+*.tmproj
+*.code-workspace
+
+## Testing
+# PHPUnit cache and coverage files
+.phpunit.cache/
+.coverage
+html-coverage/
+clover.xml
+coverage.clover
+coverage.xml
+.phpunit.result.cache
+
+## Documentation Build Files
+# If documentation is built/generated
+docs/_build/
+docs/.doctrees/
+
+## Backup Files
+# Database backups, session files, etc.
+*.bak
+*.backup
+*.old
+*.orig
+
+## SQLite Databases
+# Test databases if using file-based SQLite
+*.db
+*.sqlite
+*.sqlite3
+database/database.sqlite
+
+## Logs
+# Application and server logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+## Runtime Data
+# Session files, cache files, compiled views
+storage/*.key
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+!storage/framework/cache/.gitignore
+!storage/framework/sessions/.gitignore
+!storage/framework/views/.gitignore
+!storage/logs/.gitignore
+
+## Public Storage Link
+# This is a symlink created by artisan storage:link
+public/storage
+
+## Temporary Files
+temp/
+tmp/
+*.tmp
+*.temp
+
+## Upload Directories
+# User uploads should not be tracked
+uploads/
+downloads/
+
+## Python Worker Environment
+# Virtual environment for Python worker
+python-worker/venv/
+python-worker/.venv/
+python-worker/__pycache__/
+python-worker/*.pyc
+python-worker/env/
+python-worker/.env
+
+## Docker
+# Docker volumes and data
+docker-compose.override.yml
+.docker/
+.dockerdata/
+
+## CI/CD
+# Local CI/CD configurations that shouldn't be shared
+.github/workflows/local-*
+.travis.yml.local
+.circleci/config.local.yml
+
+## Debug Files
+# Xdebug and other debugging tools
+xdebug.log
+*.debug
+
+## Composer
+# Composer lock can be excluded for packages (optional)
+# Uncomment if you want to allow flexible dependency resolution
+# composer.lock
+
+## Migration Rollback Files
+# Generated migration rollback files
+*_rollback.php
+
+## Asset Compilation
+# If using Laravel Mix or similar
+mix-manifest.json
+public/js/
+public/css/
+!.gitkeep
+
+## TypeScript
+# If TypeScript is used
+*.tsbuildinfo
+
+## SASS/SCSS Intermediate Files
+*.sass-cache
+*.css.map
+*.js.map
+
+## Cache Files
+# General cache directories
+cache/
+__cache__/
+.cache/
+
+## Environment-Specific Configurations
+# Local configuration overrides
+config/local/
+config.local.php
+
+## Secrets and Credentials
+# Any secret files
+secrets/
+credentials/
+*.pem
+*.key
+*.crt
+
+## Telegram Session Files
+# Pyrogram session files from Python worker
+python-worker/sessions/
+*.session
+*.session-journal
+
+## Large Test Files
+# Large test fixtures or data files
+tests/large/
+tests/fixtures/large/
+*.large.test
+*.big
+
+## Benchmark Files
+# Performance benchmark results
+benchmarks/results/
+*.benchmark
+
+## Scratch Files
+# Developer scratch files
+scratch/
+scratches/
+*.scratch
+
+## OS Generated Files
+# Windows
+desktop.ini
+ehthumbs.db
+Icon?
+._*
+
+# Mac
+.Spotlight-V100
+.Trashes
+fseventsd
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+## Documentation Tools
+# Generated documentation output
+apidoc/
+phpdoc/
+api-docs/
+
+## Development Tools
+# Local development tool configurations
+.lando.yml
+.vagrant/
+.pint
+.php-cs-fixer.php
+.php_cs.cache
+
+## Coverage Badges
+# If badges are generated locally
+coverage.svg
+badge-*.svg
+
+## Temporary Test Files
+# Quick test files developers might create
+test.php
+temp-test.php
+debug.php
+
+## End of .gitignore

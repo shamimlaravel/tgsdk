@@ -1,0 +1,4 @@
+# TGSDK .gitkeep files
+
+# This file ensures empty directories are tracked by Git
+# Place .gitkeep files in directories that should exist but may be empty
