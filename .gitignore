@@ -49,6 +49,7 @@ package-lock.json
 Thumbs.db
 *.tmproj
 *.code-workspace
+.qoder/
 
 ## Testing
 # PHPUnit cache and coverage files

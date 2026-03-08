@@ -1,5 +1,6 @@
 {
     "name": "shamimstack/tgsdk",
+    "version": "1.0.1",
     "description": "Laravel filesystem driver backed by Telegram channels with Python upload worker, chunking, channel rotation, and CDN streaming support.",
     "keywords": ["laravel", "telegram", "storage", "filesystem", "flysystem", "cdn", "streaming"],
     "license": "MIT",
